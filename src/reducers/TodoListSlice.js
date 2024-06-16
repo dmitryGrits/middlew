@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { tasks } from "../data/tasks";
+import { Load } from "../middlewares/middleware";
 
 export const todoListSlice = createSlice({
   name: "todoList",
@@ -7,12 +8,12 @@ export const todoListSlice = createSlice({
     array: tasks
   },
   reducers: {
-    addTodo: (state, { payload: newTodoItem }) => {
+    addTodo: (Load.pending, (state, { payload: newTodoItem }) => {
       if (state.array.some((item) => item.id === newTodoItem.id)) {
         return;
       }
       state.array.push(newTodoItem);
-    },
+    }),
     deleteTodo: (state, { payload: todoItem }) => {
       const filteredArray = state.array.filter(
         (item) => item.id !== todoItem.id
